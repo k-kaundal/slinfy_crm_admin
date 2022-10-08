@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class UserModel {
   final String? uid;
   final bool? isVerified;
@@ -16,6 +15,11 @@ class UserModel {
   TraineeModel? traineeModel;
   TrainerModel? trainerModel;
   HRModel? hrModel;
+  Map<String, dynamic>? traineeModuleMap;
+
+  Map<String, dynamic>? trainerModuleMap;
+
+  Map<String, dynamic>? hrModuleMap;
 
   UserModel(
       {this.phone,
@@ -31,7 +35,10 @@ class UserModel {
       this.userType,
       this.trainerModel,
       this.traineeModel,
-      this.hrModel});
+      this.hrModel,
+      this.hrModuleMap,
+      this.traineeModuleMap,
+      this.trainerModuleMap});
 
   Map<String, dynamic> toMap() {
     return {
@@ -45,9 +52,9 @@ class UserModel {
       'userType': userType,
       'dateOfBirth': dateOfBirth,
       'phone': phone,
-      'TrainerModel': TrainerModel().toMap(),
-      'TraineeModel': TraineeModel().toMap(),
-      'HRModel': HRModel().toMap()
+      'TrainerModel': trainerModuleMap ?? TrainerModel().toMap(),
+      'TraineeModel': traineeModuleMap ?? TraineeModel().toMap(),
+      'HRModel': hrModuleMap ?? HRModel().toMap()
     };
   }
 
@@ -62,10 +69,8 @@ class UserModel {
         userType = doc.data()!["userType"],
         dateOfBirth = doc.data()!["dateOfBirth"],
         phone = doc.data()!["phone"],
-        trainerModel =
-            TrainerModel.fromJson(doc.data()!["TrainerModel"]),
-        traineeModel =
-            TraineeModel.fromJson(doc.data()!["TraineeModel"]),
+        trainerModel = TrainerModel.fromJson(doc.data()!["TrainerModel"]),
+        traineeModel = TraineeModel.fromJson(doc.data()!["TraineeModel"]),
         hrModel = HRModel.fromJson(doc.data()!["HRModel"]);
 
   UserModel copyWith(
@@ -103,52 +108,135 @@ class UserModel {
 
 class HRModel {
   int? status;
-  HRModel({this.status=0});
 
-  HRModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc):
-  status = doc.get(['status'])
-  ;
+  HRModel({this.status = 0});
+
+  HRModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+      : status = doc.get(['status']);
+
   Map<String, dynamic> toMap() {
-    return {
-      'status':status
-    };
+    return {'status': status};
   }
 
   HRModel.fromJson(Map<String, dynamic> json) {
-    status = json['status']?? '';
+    status = json['status'] ?? '';
   }
 }
 
 class TrainerModel {
   int? status;
+  List? technology;
+  String? id;
 
-  TrainerModel({this.status = 0});
+  TrainerModel({this.status = 0, this.technology, this.id});
 
   TrainerModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      :status = doc.get(['status']);
+      : status = doc.get(['status']);
+
   TrainerModel.fromJson(Map<String, dynamic> json) {
-    status = json['status']?? '';
+    status = json['status'] ?? '';
+    technology = json['technology'] ?? [];
+    id = json['id'] ?? '';
   }
+
   Map<String, dynamic> toMap() {
     return {
-      'status': status
+      'status': status,
+      'technology': technology,
     };
   }
 }
 
 class TraineeModel {
   int? status;
+  String? name;
+  String? email;
+  String? id;
+  String? college;
+  String? dateOfJoining;
+  String? enrollmentDate;
+  String? endDate;
+  List? technology;
+  Map<String, dynamic>? feeDetailsModelMap;
+  FeeDetailsModel? feeDetailsModel;
 
-  TraineeModel({this.status = 0});
+  TraineeModel(
+      {this.status = 0,
+      this.name,
+      this.email,
+      this.id,
+      this.college,
+      this.dateOfJoining,
+      this.enrollmentDate,
+      this.endDate,
+      this.technology,
+      this.feeDetailsModelMap});
+
   TraineeModel.fromJson(Map<String, dynamic> json) {
-    status = json['status']?? '';
+    status = json['status'] ?? '';
+    name = json['name'] ?? '';
+    email = json['email'] ?? '';
+    id = json['id'] ?? '';
+    college = json['college'] ?? '';
+    dateOfJoining = json['dateOfJoining'] ?? '';
+    enrollmentDate = json['enrollmentDate'] ?? '';
+    endDate = json['endDate'] ?? '';
+    technology = json['technology'] ?? [];
+    // feeDetailsModel = FeeDetailsModel.fromDocumentSnapshot(json['feeDetailsModel']);
   }
+
   TraineeModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
-      :status = doc.get(['status']);
+      : status = doc.get(['status']);
 
   Map<String, dynamic> toMap() {
     return {
-      'status': status
+      'status': status,
+      'name': name,
+      'email': email,
+      'id': id,
+      'college': college,
+      'dateOfJoining': dateOfJoining,
+      'enrollmentDate': enrollmentDate,
+      'endDate': endDate,
+      'technology': technology,
+      'feeDetailsModel': feeDetailsModelMap??FeeDetailsModel().toMap()
     };
+  }
+}
+
+class FeeDetailsModel {
+  int? status;
+  String? totalFee;
+  String? registrationFee;
+  String? dueFee;
+  String? pendingFee;
+  String? nextDueDate;
+
+  FeeDetailsModel(
+      {this.status = 0,
+      this.totalFee,
+      this.registrationFee,
+      this.dueFee,
+      this.pendingFee='0',
+      this.nextDueDate});
+
+  FeeDetailsModel.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> doc)
+      : status = doc.get(['status']),
+        totalFee = doc.get(['totalFee']);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'status': status,
+      'totalFee': totalFee,
+      'registrationFee': registrationFee,
+      'dueFee': dueFee,
+      'pendingFee': pendingFee,
+      'nextDueDate': nextDueDate
+    };
+  }
+
+  FeeDetailsModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'] ?? '';
   }
 }

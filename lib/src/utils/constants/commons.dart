@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:slinfy_crm_admin/src/models/offline_model/user_object.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 enum UserType { ADMIN, HR, TRAINER, TRAINEE }
 
 class Commons {
@@ -9,7 +9,13 @@ class Commons {
   late final CollectionBox<UserObject> userBox ;
   late final List<UserObject?> getAllUserObject ;
 
+  static getDate(){
+    return DateFormat('dd/MM/yy').format(DateTime.now());
+  }
 
+  static String getTime(){
+    return DateFormat('kk:mm').format(DateTime.now());
+  }
   createObjectBox() async {
     collection = await BoxCollection.open(
       'slinfy_crm', // Name of your database

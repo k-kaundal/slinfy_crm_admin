@@ -41,6 +41,7 @@ dependencies:
   hive: ^2.2.3
   multi_select_flutter: ^4.1.2
   shared_preferences: ^2.0.15
+  select_dialog: ^2.0.0
 
 dev_dependencies:
   flutter_test:

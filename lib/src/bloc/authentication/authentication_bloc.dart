@@ -20,8 +20,8 @@ class AuthenticationBloc
             await AuthenticationService().signIn(event.userModel!);
         // debugPrintStack(label: userCredential.toString());
         // User? user = FirebaseAuth.instance.currentUser;
-        print(userCredential.runtimeType);
-        if (userCredential.runtimeType == String) {
+        // print(userCredential.runtimeType);
+        if (userCredential.runtimeType != UserCredential) {
           emit(AuthenticationFailure(error: userCredential));
         } else {
           UserModel userModel = await DatabaseService()
@@ -35,8 +35,14 @@ class AuthenticationBloc
         emit(AuthenticationInitial());
       } else if (event is AuthenticationChecking) {
         FirebaseAuth auth = FirebaseAuth.instance;
+
         if (auth.currentUser != null) {
-          emit(const AuthenticationSuccess());
+          // print(auth.currentUser);
+          UserModel userModel = await DatabaseService()
+              .retrieveSingleUserData(auth.currentUser!.uid.toString());
+          emit(AuthenticationSuccess(
+              displayName: userModel.displayName,
+              userType: userModel.userType));
         } else {
           emit(AuthenticationInitial());
         }

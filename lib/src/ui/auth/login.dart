@@ -242,9 +242,13 @@ import 'package:slinfy_crm_admin/src/repo/service/authentication_service.dart';
 import 'package:slinfy_crm_admin/src/ui/auth/input_widget_email.dart';
 import 'package:slinfy_crm_admin/src/ui/auth/input_widget_password.dart';
 import 'package:slinfy_crm_admin/src/ui/commons/widgets/background.dart';
+import 'package:slinfy_crm_admin/src/ui/home/admin_home.dart';
 import 'package:slinfy_crm_admin/src/ui/home/home.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:slinfy_crm_admin/src/ui/home/hr_home.dart';
+import 'package:slinfy_crm_admin/src/ui/home/trainer_home.dart';
+import 'package:slinfy_crm_admin/src/utils/constants/app_images.dart';
 import 'package:slinfy_crm_admin/src/utils/constants/commons.dart';
 
 class Login extends StatefulWidget {
@@ -266,11 +270,17 @@ class _LoginState extends State<Login> {
         if (state is AuthenticationSuccess) {
           if (state.userType == UserType.ADMIN.name) {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const Home()));
+                MaterialPageRoute(builder: (context) => const AdminHome()));
           } else if (state.userType == UserType.HR.name) {
-          } else if (state.userType == UserType.TRAINER.name) {}
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HRHome()));
+          } else if (state.userType == UserType.TRAINER.name) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const TrainerHome()));
+          }
         }else if(state is AuthenticationFailure){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error.toString())));
+
         }
       },
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -473,7 +483,17 @@ class _LoginState extends State<Login> {
             ),
           );
         } else {
-          return Scaffold();
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(AppImages.login,width: MediaQuery.of(context).size.width*0.5,),
+                ],
+              ),
+            ),
+          );
         }
       }),
     );

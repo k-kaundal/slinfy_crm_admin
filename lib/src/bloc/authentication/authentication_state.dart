@@ -12,8 +12,7 @@ class AuthenticationInitial extends AuthenticationState {
 class AuthenticationSuccess extends AuthenticationState {
   final String? displayName;
   final String? userType;
-
-  const AuthenticationSuccess({this.displayName,this.userType});
+  AuthenticationSuccess({this.displayName,this.userType});
 
   @override
   List<Object?> get props => [displayName,userType];

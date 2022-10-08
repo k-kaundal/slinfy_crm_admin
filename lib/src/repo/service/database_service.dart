@@ -32,7 +32,7 @@ class DatabaseService {
   }
 
   Stream<DocumentSnapshot> getBasicData() =>   data.doc("BasicLearningData").snapshots();
-  Stream<QuerySnapshot<Map<String, dynamic>>> getUsers(String name) =>  name ==''?_db.collection("Users").snapshots(): _db.collection("Users").where('name',isGreaterThanOrEqualTo: name).snapshots();
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUsers(String name) =>  name ==''?_db.collection("Users").snapshots(): _db.collection("Users").where('displayName',isGreaterThanOrEqualTo: name).snapshots();
   Future<void> addBatches(List batches) =>   data.doc("BasicLearningData").update({'Batches':batches});
   Future<void> addCollege(List batches) =>   data.doc("BasicLearningData").update({'Colleges':batches});
   Future<void> addTechnology(List batches) =>   data.doc("BasicLearningData").update({'Technology':batches});

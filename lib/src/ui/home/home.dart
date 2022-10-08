@@ -50,6 +50,8 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (BuildContext context, state) {
+        print('$state state of page' );
+
         if (state is AuthenticationFailure) {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const Login()));
