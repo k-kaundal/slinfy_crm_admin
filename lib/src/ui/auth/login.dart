@@ -265,6 +265,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (BuildContext context, state) {
         if (state is AuthenticationSuccess) {
@@ -278,203 +279,562 @@ class _LoginState extends State<Login> {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const TrainerHome()));
           }
-        }else if(state is AuthenticationFailure){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error.toString())));
-
+        } else if (state is AuthenticationFailure) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.error.toString())));
         }
       },
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
         if (state is AuthenticationInitial) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Stack(children: [
-              Background(),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 2.3),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      ///holds email header and inputField
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 40, bottom: 10),
-                            child: isEmail
-                                ? Text(
-                                    "Email",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                : Text(
-                                    "Password",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                          ),
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: <Widget>[
-                              isEmail
-                                  ? Padding(
-                                      padding: EdgeInsets.only(
-                                          right: 40, bottom: 30),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                40,
-                                        child: Column(children: [
-                                          Material(
-                                            elevation: 10,
-                                            color: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(0),
-                                                    topRight:
-                                                        Radius.circular(30))),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 40,
-                                                  right: 20,
-                                                  top: 10,
-                                                  bottom: 10),
-                                              child: TextFormField(
-                                                keyboardType:
-                                                    TextInputType.emailAddress,
-                                                controller: email,
-                                                decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText:
-                                                        "JohnDoe@example.com",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.black45,
-                                                        fontSize: 14)),
-                                              ),
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth <= 430) {
+                return Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: Stack(children: [
+                    Background(),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height / 2.3),
+                        ),
+                        Column(
+                          children: <Widget>[
+                            ///holds email header and inputField
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 40, bottom: 10),
+                                  child: isEmail
+                                      ? Text(
+                                          "Email",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w500),
+                                        )
+                                      : Text(
+                                          "Password",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                ),
+                                Stack(
+                                  alignment: Alignment.bottomRight,
+                                  children: <Widget>[
+                                    isEmail
+                                        ? Padding(
+                                            padding: EdgeInsets.only(
+                                                right: 40, bottom: 30),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  40,
+                                              child: Column(children: [
+                                                Material(
+                                                  elevation: 10,
+                                                  color: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          0),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      30))),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 40,
+                                                        right: 20,
+                                                        top: 10,
+                                                        bottom: 10),
+                                                    child: TextFormField(
+                                                      keyboardType:
+                                                          TextInputType
+                                                              .emailAddress,
+                                                      controller: email,
+                                                      decoration: InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "JohnDoe@example.com",
+                                                          hintStyle: TextStyle(
+                                                              color: Colors
+                                                                  .black45,
+                                                              fontSize: 14)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: EdgeInsets.only(
+                                                right: 40, bottom: 30),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  40,
+                                              child: Column(children: [
+                                                Material(
+                                                  elevation: 10,
+                                                  color: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          30),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      0))),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 40,
+                                                        right: 20,
+                                                        top: 10,
+                                                        bottom: 10),
+                                                    child: TextFormField(
+                                                      controller: password,
+                                                      obscureText: true,
+                                                      obscuringCharacter: '*',
+                                                      keyboardType:
+                                                          TextInputType.text,
+                                                      decoration: InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Enter your password",
+                                                          hintStyle: TextStyle(
+                                                              color: Colors
+                                                                  .black45,
+                                                              fontSize: 14)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
                                             ),
                                           ),
-                                        ]),
-                                      ),
-                                    )
-                                  : Padding(
-                                      padding: EdgeInsets.only(
-                                          right: 40, bottom: 30),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                40,
-                                        child: Column(children: [
-                                          Material(
-                                            elevation: 10,
-                                            color: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(30),
-                                                    topRight:
-                                                        Radius.circular(0))),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 40,
-                                                  right: 20,
-                                                  top: 10,
-                                                  bottom: 10),
-                                              child: TextFormField(
-                                                controller: password,
-                                                obscureText: true,
-                                                obscuringCharacter: '*',
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText:
-                                                        "Enter your password",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.black45,
-                                                        fontSize: 14)),
+                                    Padding(
+                                        padding: EdgeInsets.only(right: 40),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Expanded(
+                                                child: Padding(
+                                              padding: EdgeInsets.only(top: 40),
+                                              child: isEmail
+                                                  ? Text(
+                                                      'Enter your email id to continue...',
+                                                      textAlign: TextAlign.end,
+                                                      style: TextStyle(
+                                                          color: Colors.black45,
+                                                          fontSize: 12),
+                                                    )
+                                                  : Text(
+                                                      'Enter your password to continue...',
+                                                      textAlign: TextAlign.end,
+                                                      style: TextStyle(
+                                                          color: Colors.black45,
+                                                          fontSize: 12),
+                                                    ),
+                                            )),
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  isEmail =
+                                                      isEmail ? false : true;
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                decoration: ShapeDecoration(
+                                                  shape: CircleBorder(),
+                                                  gradient: LinearGradient(
+                                                      colors: signInGradients,
+                                                      begin: Alignment.topLeft,
+                                                      end: Alignment
+                                                          .bottomRight),
+                                                ),
+                                                child: ImageIcon(
+                                                  AssetImage(
+                                                      "assets/images/ic_forward.png"),
+                                                  size: 40,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                              Padding(
-                                  padding: EdgeInsets.only(right: 40),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                          child: Padding(
-                                        padding: EdgeInsets.only(top: 40),
-                                        child: isEmail
-                                            ? Text(
-                                                'Enter your email id to continue...',
-                                                textAlign: TextAlign.end,
-                                                style: TextStyle(
-                                                    color: Colors.black45,
-                                                    fontSize: 12),
-                                              )
-                                            : Text(
-                                                'Enter your password to continue...',
-                                                textAlign: TextAlign.end,
-                                                style: TextStyle(
-                                                    color: Colors.black45,
-                                                    fontSize: 12),
-                                              ),
-                                      )),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            isEmail = isEmail ? false : true;
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(10),
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 40),
+                            ),
+                            Visibility(
+                                visible: !isEmail,
+                                child: roundedRectButton(
+                                    "Let's get Started",
+                                    signInGradients,
+                                    false,
+                                    email.text.trim(),
+                                    password.text.trim())),
+                            // roundedRectButton("Create an Account", signUpGradients, false),
+                          ],
+                        )
+                      ],
+                    ),
+                  ]),
+                );
+              } else if(constraints.maxWidth>=450 && constraints.maxWidth<=650){
+                return Scaffold(
+                  body: Container(
+                    height: size.height,
+                    width: size.width,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              'https://img.freepik.com/free-vector/network-mesh-wire-digital-technology-background_1017-27428.jpg',
+                            ),
+                            fit: BoxFit.cover)),
+                    child: Container(
+                      width: 350,
+                      margin: EdgeInsets.all(30),
+                      height: size.height,
+                      child: Card(
+                        elevation: 5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15))),
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Image.asset(
+                                  AppImages.collaboration,
+                                  height: 150,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Enter Email & Password ",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: email,
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      border: InputBorder.none,
+                                      hintText: "JohnDoe@example.com",
+                                      hintStyle: TextStyle(
+                                          color: Colors.black45,
+                                          fontSize: 14)),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: password,
+                                  obscureText: true,
+                                  obscuringCharacter: '*',
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      filled: true,
+                                      hintText: "Enter your password",
+                                      hintStyle: TextStyle(
+                                          color: Colors.black45,
+                                          fontSize: 14)),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                InkWell(
+                                  onTap: () async {
+                                    if (email.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text("Enter email id "),
+                                      ));
+                                      return;
+                                    }
+                                    if (password.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text("Enter password"),
+                                      ));
+                                      return;
+                                    }
+                                    UserModel userModel = UserModel(
+                                        email: email.text.trim(),
+                                        password: password.text.trim());
+                                    context.read<AuthenticationBloc>().add(
+                                        AuthenticationStarted(
+                                            userModel: userModel));
+                                    // await AuthenticationService()
+                                    //     .signIn(userModel);
+                                    // .then((UserCredential? value) {
+                                    // if (value!= null) {
+                                    //
+                                    //   Navigator.of(mContext).pushReplacement(MaterialPageRoute(builder: (context)=>Home()));
+                                    //
+                                    // } else {
+                                    //   ScaffoldMessenger.of(mContext)
+                                    //       .showSnackBar(SnackBar(content: Text('Usernot found !')));
+                                    // }
+                                    // });
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 10),
+                                    child: Stack(
+                                      alignment: Alignment(1.0, 0.0),
+                                      children: <Widget>[
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width /
+                                              1.5,
                                           decoration: ShapeDecoration(
-                                            shape: CircleBorder(),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    30.0)),
                                             gradient: LinearGradient(
                                                 colors: signInGradients,
                                                 begin: Alignment.topLeft,
                                                 end: Alignment.bottomRight),
                                           ),
-                                          child: ImageIcon(
-                                            AssetImage(
-                                                "assets/images/ic_forward.png"),
-                                            size: 40,
-                                            color: Colors.white,
-                                          ),
+                                          child: Text("Let's get Started",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight:
+                                                  FontWeight.w500)),
+                                          padding: EdgeInsets.only(
+                                              top: 16, bottom: 16),
                                         ),
-                                      ),
-                                    ],
-                                  ))
-                            ],
+                                        Visibility(
+                                          visible: false,
+                                          child: Padding(
+                                              padding:
+                                              EdgeInsets.only(right: 10),
+                                              child: ImageIcon(
+                                                AssetImage(
+                                                    "assets/images/ic_forward.png"),
+                                                size: 30,
+                                                color: Colors.white,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 40),
-                      ),
-                      Visibility(
-                          visible: !isEmail,
-                          child: roundedRectButton(
-                              "Let's get Started",
-                              signInGradients,
-                              false,
-                              email.text.trim(),
-                              password.text.trim())),
-                      // roundedRectButton("Create an Account", signUpGradients, false),
-                    ],
+                    ),
                   )
-                ],
-              ),
-            ]),
+                );
+              }else {
+                return Scaffold(
+                    body: Container(
+                  height: size.height,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(
+                            'https://img.freepik.com/free-vector/network-mesh-wire-digital-technology-background_1017-27428.jpg',
+                          ),
+                          fit: BoxFit.cover)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Center(
+                        child: Container(
+                          height: size.height,
+                        ),
+                      )),
+                      Container(
+                        width: 350,
+                        margin: EdgeInsets.all(30),
+                        height: size.height,
+                        child: Card(
+                          elevation: 5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                    AppImages.collaboration,
+                                    height: 150,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Enter Email & Password ",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextFormField(
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: email,
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        border: InputBorder.none,
+                                        hintText: "JohnDoe@example.com",
+                                        hintStyle: TextStyle(
+                                            color: Colors.black45,
+                                            fontSize: 14)),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextFormField(
+                                    controller: password,
+                                    obscureText: true,
+                                    obscuringCharacter: '*',
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        filled: true,
+                                        hintText: "Enter your password",
+                                        hintStyle: TextStyle(
+                                            color: Colors.black45,
+                                            fontSize: 14)),
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      if (email.text.isEmpty) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text("Enter email id "),
+                                        ));
+                                        return;
+                                      }
+                                      if (password.text.isEmpty) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text("Enter password"),
+                                        ));
+                                        return;
+                                      }
+                                      UserModel userModel = UserModel(
+                                          email: email.text.trim(),
+                                          password: password.text.trim());
+                                      context.read<AuthenticationBloc>().add(
+                                          AuthenticationStarted(
+                                              userModel: userModel));
+                                      // await AuthenticationService()
+                                      //     .signIn(userModel);
+                                      // .then((UserCredential? value) {
+                                      // if (value!= null) {
+                                      //
+                                      //   Navigator.of(mContext).pushReplacement(MaterialPageRoute(builder: (context)=>Home()));
+                                      //
+                                      // } else {
+                                      //   ScaffoldMessenger.of(mContext)
+                                      //       .showSnackBar(SnackBar(content: Text('Usernot found !')));
+                                      // }
+                                      // });
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: Stack(
+                                        alignment: Alignment(1.0, 0.0),
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: Alignment.center,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                1.5,
+                                            decoration: ShapeDecoration(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0)),
+                                              gradient: LinearGradient(
+                                                  colors: signInGradients,
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight),
+                                            ),
+                                            child: Text("Let's get Started",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                            padding: EdgeInsets.only(
+                                                top: 16, bottom: 16),
+                                          ),
+                                          Visibility(
+                                            visible: false,
+                                            child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 10),
+                                                child: ImageIcon(
+                                                  AssetImage(
+                                                      "assets/images/ic_forward.png"),
+                                                  size: 30,
+                                                  color: Colors.white,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ));
+              }
+            },
           );
         } else if (state is AuthenticationStarted) {
           return Scaffold(
@@ -489,7 +849,10 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(AppImages.login,width: MediaQuery.of(context).size.width*0.5,),
+                  Image.asset(
+                    AppImages.login,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                  ),
                 ],
               ),
             ),
@@ -505,6 +868,21 @@ Widget roundedRectButton(String title, List<Color> gradient,
   return Builder(builder: (BuildContext mContext) {
     return InkWell(
       onTap: () async {
+        ScaffoldMessenger.of(mContext).showSnackBar(SnackBar(
+          content: Text(email),
+        ));
+        if (email.isEmpty) {
+          ScaffoldMessenger.of(mContext).showSnackBar(SnackBar(
+            content: Text("Enter email id "),
+          ));
+          return;
+        }
+        if (password.isEmpty) {
+          ScaffoldMessenger.of(mContext).showSnackBar(SnackBar(
+            content: Text("Enter password"),
+          ));
+          return;
+        }
         UserModel userModel = UserModel(email: email, password: password);
         mContext
             .read<AuthenticationBloc>()

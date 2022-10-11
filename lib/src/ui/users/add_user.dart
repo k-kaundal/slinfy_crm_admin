@@ -51,31 +51,21 @@ class _AddUserState extends State<AddUser> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth <= 850) {
-        return Scaffold(
-            // resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              title: Text('Add User'),
-            ),
-            body: Stack(children: [
-              // AppBackground(),
-              SizedBox(
-                height: size.height,
-                width: size.width,
-                child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: addUserScreen(size)),
-              ),
-            ]));
-      } else {
-        return Container(
-          height: size.height,
-          width: size.width,
-          // child: addUserScreen(),
-        );
-      }
-    });
+    return Scaffold(
+      // resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text('Add User'),
+        ),
+        body: Stack(children: [
+          // AppBackground(),
+          SizedBox(
+            height: size.height,
+            width: size.width,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: addUserScreen(size)),
+          ),
+        ]));
   }
 
   Widget addUserScreen(Size size) {
@@ -408,28 +398,29 @@ class _AddUserState extends State<AddUser> {
                 ),
                 TextFormField(
                   controller: registrationFee,
+                  onChanged: (val){
+                    setState(() {
+                      pendingFee.text = (int.parse(totalFee.text)-int.parse(registrationFee.text)).toDouble().toString();
+                          // -int.parse(dueFee.text)).toDouble().toString();
+                    });
+                  },
                   decoration: InputDecoration(
                       label: Text('Registration Fee'),
                       hintText: '00.0',
                       filled: true,
                       border: InputBorder.none),
                 ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: dueFee,
-                  onChanged: (val){
-                    setState(() {
-                      pendingFee.text = (int.parse(totalFee.text)-int.parse(registrationFee.text)-int.parse(dueFee.text)).toDouble().toString();
-                    });
-                  },
-                  decoration: InputDecoration(
-                      label: Text('Due Fee'),
-                      hintText: '00.0',
-                      filled: true,
-                      border: InputBorder.none),
-                ),
+                // SizedBox(
+                //   height: 16,
+                // ),
+                // TextFormField(
+                //   controller: dueFee,
+                //   decoration: InputDecoration(
+                //       label: Text('Due Fee'),
+                //       hintText: '00.0',
+                //       filled: true,
+                //       border: InputBorder.none),
+                // ),
                 SizedBox(
                   height: 16,
                 ),
@@ -592,7 +583,7 @@ class _AddUserState extends State<AddUser> {
                         });
                       } else if (userType == UserType.TRAINEE.name) {
                         FeeDetailsModel feeDetailsModel = FeeDetailsModel(
-                          dueFee: dueFee.text.trim(),
+                          // dueFee: dueFee.text.trim(),
                           totalFee: totalFee.text.trim(),
                           pendingFee: pendingFee.text.trim(),
                           registrationFee: registrationFee.text.trim(),

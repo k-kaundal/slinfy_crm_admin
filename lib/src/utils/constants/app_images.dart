@@ -18,4 +18,5 @@ class AppImages{
   static const String id_card = "assets/images/id_card.png";
   static const String clipboard = "assets/images/clipboard.png";
   static const String confirmation = "assets/images/confirmation.png";
+  static const String arrow_right = "assets/images/arrow_right.png";
 }

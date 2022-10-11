@@ -4,6 +4,7 @@ import 'package:slinfy_crm_admin/src/models/user_model.dart';
 import 'package:slinfy_crm_admin/src/repo/service/database_service.dart';
 import 'package:slinfy_crm_admin/src/ui/commons/app_background.dart';
 import 'package:slinfy_crm_admin/src/ui/users/add_user.dart';
+import 'package:slinfy_crm_admin/src/ui/users/update_batch.dart';
 
 class Users extends StatefulWidget {
   const Users({Key? key}) : super(key: key);
@@ -93,25 +94,31 @@ class _UsersState extends State<Users> {
                                   itemCount: data.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 20, right: 20),
+                                    return InkWell(
+                                      onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UpdateBatch(id: data[index].id
+                                          ,)));
+                                      },
                                       child: Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: Table(children: [
-                                          TableRow(children: [
-                                            Text('${index+1}.'),
-                                            Text(data[index]
-                                                    ['displayName']
-                                                .toString()),
-                                            Text(data[index]['uid']
-                                                .toString()),
-                                            Text(data[index]['phone']
-                                                .toString()),
-                                            Text(data[index]['userType']
-                                                .toString())
-                                          ])
-                                        ]),
+                                        padding:
+                                            EdgeInsets.only(left: 20, right: 20),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 20),
+                                          child: Table(children: [
+                                            TableRow(children: [
+                                              Text('${index+1}.'),
+                                              Text(data[index]
+                                                      ['displayName']
+                                                  .toString()),
+                                              Text(data[index]['uid']
+                                                  .toString()),
+                                              Text(data[index]['phone']
+                                                  .toString()),
+                                              Text(data[index]['userType']
+                                                  .toString())
+                                            ])
+                                          ]),
+                                        ),
                                       ),
                                     );
                                   },

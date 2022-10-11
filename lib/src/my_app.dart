@@ -7,13 +7,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      // initialRoute: "/",
+    return MaterialApp(
+      initialRoute: "/",
       theme: ThemeData.light(
         useMaterial3: true
       ),
       debugShowCheckedModeBanner: false,
-      home: const BlocNative(),
+      home: BlocNative(),
     );
   }
 }
